@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="security-title glitch-effect">◢ 資安事件儀表板 ◣</h1>
+
+<div style="text-align: center; margin-bottom: 30px;">
+    <span style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; font-size: 1.1rem;">
+        ◆ 操作員：{{ user.username | upper }} | 權限等級：{{ user.role.value | upper }} ◆
+    </span>
+</div>
+
+<div style="text-align: center; margin-bottom: 40px;">
+    <a href="{{ url_for('report_incident') }}" class="cyber-btn">◢ 通報新事件 ◣</a>
+</div>
+
+<!-- 搜尋和篩選區域 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-magenta); font-family: 'Orbitron', monospace; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">
+        ◆ 搜尋與篩選功能 ◆
+    </h2>
+    
+    <form method="POST" class="security-form">
+        <div>
+            <label for="keyword" class="security-label">◆ 關鍵字搜尋</label>
+            <input type="text" name="keyword" id="keyword" class="security-input" 
+                   placeholder="在標題、描述、標籤中搜尋...">
+        </div>
+        
+        <div>
+            <label class="security-label">◆ 嚴重程度</label>
+            <div class="checkbox-group">
+                {% for severity in severities %}
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="severities" value="{{ severity.value }}">
+                        {% if severity.value == 'low' %}低風險
+                        {% elif severity.value == 'medium' %}中風險
+                        {% elif severity.value == 'high' %}高風險
+                        {% elif severity.value == 'critical' %}緊急威脅
+                        {% endif %}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div>
+            <label class="security-label">◆ 處理狀態</label>
+            <div class="checkbox-group">
+                {% for status in statuses %}
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="statuses" value="{{ status.value }}">
+                        {% if status.value == 'open' %}待處理
+                        {% elif status.value == 'in_progress' %}處理中
+                        {% elif status.value == 'resolved' %}已解決
+                        {% elif status.value == 'closed' %}已關閉
+                        {% endif %}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% if all_tags %}
+        <div>
+            <label class="security-label">◆ 威脅標籤</label>
+            <div class="tag-list">
+                {% for tag in all_tags %}
+                    <label class="checkbox-item" style="cursor: pointer;">
+                        <input type="checkbox" name="tags" value="{{ tag }}">
+                        {{ tag }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <button type="submit" class="cyber-btn">◢ 執行搜尋 ◣</button>
+    </form>
+</div>
+
+<!-- 事件列表 -->
+<div class="security-card incidents-log-card">
+    <h2 class="incidents-log-title">
+        ◆ 資安事件記錄檔 ◆
+    </h2>
+    
+    {% if incidents %}
+        <div class="incidents-table-wrapper">
+            <table class="incidents-table">
+                <thead>
+                    <tr>
+                        <th>事件編號</th>
+                        <th>事件標題</th>
+                        <th>嚴重程度</th>
+                        <th>處理狀態</th>
+                        <th>威脅標籤</th>
+                        <th>建立時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for incident in incidents %}
+                        <tr>
+                            <td style="font-family: 'Courier New', monospace; color: var(--accent-cyan);">
+                                {{ incident.incident_id[:8] }}...
+                            </td>
+                            <td>{{ incident.title }}</td>
+                            <td>
+                                <span class="severity-{{ incident.severity.value }}">
+                                    {% if incident.severity.value == 'low' %}低風險
+                                    {% elif incident.severity.value == 'medium' %}中風險
+                                    {% elif incident.severity.value == 'high' %}高風險
+                                    {% elif incident.severity.value == 'critical' %}緊急威脅
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="status-badge status-{{ incident.status.value.replace('_', '-') }}">
+                                    {% if incident.status.value == 'open' %}待處理
+                                    {% elif incident.status.value == 'in_progress' %}處理中
+                                    {% elif incident.status.value == 'resolved' %}已解決
+                                    {% elif incident.status.value == 'closed' %}已關閉
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                {% if incident.tags %}
+                                    <div class="tag-list">
+                                        {% for tag in incident.tags %}
+                                            <span class="tag">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <span style="color: var(--accent-cyan);">無標籤</span>
+                                {% endif %}
+                            </td>
+                            <td style="font-family: 'Courier New', monospace; color: var(--accent-cyan);">
+                                {{ incident.created_at.strftime('%Y-%m-%d %H:%M') if incident.created_at else 'N/A' }}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('incident_detail', incident_id=incident.incident_id) }}" 
+                                   class="security-link">詳細分析</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert-error">
+            <span style="margin-left: 25px;">◆ 沒有符合條件的事件記錄 ◆</span>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

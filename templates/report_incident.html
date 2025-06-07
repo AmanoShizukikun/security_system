@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="security-title">◢ 資安事件通報系統 ◣</h1>
+
+<div class="security-form">
+    <form method="POST">
+        <div>
+            <label for="title" class="security-label">◆ 事件標題</label>
+            <input type="text" name="title" id="title" class="security-input" 
+                   placeholder="請簡述資安事件內容..." required>
+        </div>
+        
+        <div>
+            <label for="description" class="security-label">◆ 詳細描述</label>
+            <textarea name="description" id="description" class="security-textarea" 
+                      placeholder="請詳細描述事件發生經過、影響範圍及發現過程..." required></textarea>
+        </div>
+        
+        <div>
+            <label for="severity" class="security-label">◆ 威脅等級</label>
+            <select name="severity" id="severity" class="security-select">
+                {% for severity in severities %}
+                    <option value="{{ severity.value }}">
+                        {% if severity.value == 'low' %}低風險
+                        {% elif severity.value == 'medium' %}中風險
+                        {% elif severity.value == 'high' %}高風險
+                        {% elif severity.value == 'critical' %}緊急威脅
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label for="tags" class="security-label">◆ 威脅標籤</label>
+            <input type="text" name="tags" id="tags" class="security-input" 
+                   placeholder="惡意軟體, 釣魚攻擊, 資料外洩, DDoS攻擊...">
+            <div style="color: var(--accent-cyan); font-size: 0.8rem; margin-top: 5px;">
+                ◢ 請使用逗號分隔多個標籤 ◣
+            </div>
+        </div>
+        
+        <button type="submit" class="cyber-btn glitch-effect">◢ 提交通報 ◣</button>
+    </form>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('dashboard') }}" class="security-link">◆ 返回儀表板</a>
+    </div>
+</div>
+{% endblock %}

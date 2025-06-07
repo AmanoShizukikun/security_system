@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="security-title">◢ 關於系統 ◣</h1>
+
+<!-- 系統概覽 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 系統概覽 ◆
+    </h2>
+    
+    <div class="log-entry">
+        <div class="log-action" style="font-size: 1.1rem; margin-bottom: 15px; color: var(--accent-cyan);">
+            <strong>◢ 資安事件通報系統 ◣</strong>
+        </div>
+        <div class="log-action" style="line-height: 1.8;">
+            本系統是一套專業的資安事件管理平台，提供完整的事件通報、追蹤、處理流程。
+            系統支援多層級權限管理，確保資安事件能夠被適當的人員處理，並提供完整的處理記錄追蹤功能。
+        </div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+        <div class="log-entry">
+            <div class="log-time">◆ 開發語言</div>
+            <div class="log-action">Python 3.10+ / Flask Framework</div>
+        </div>
+        <div class="log-entry">
+            <div class="log-time">◆ 前端技術</div>
+            <div class="log-action">HTML5 / CSS3 / JavaScript</div>
+        </div>
+        <div class="log-entry">
+            <div class="log-time">◆ 資料庫</div>
+            <div class="log-action">SQLite3 / 關聯式資料庫</div>
+        </div>
+    </div>
+</div>
+
+<!-- 開發團隊 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 開發團隊資訊 ◆
+    </h2>
+    
+    <a href="https://amanoshizukikun.github.io/" target="_blank" style="text-decoration: none; color: inherit; display: block;">
+        <div class="log-entry" style="cursor: pointer; transition: all 0.3s ease; border: 1px solid rgba(0,255,255,0.3);" 
+             onmouseover="this.style.background='rgba(0,255,255,0.1)'; this.style.borderColor='var(--primary-cyan)'; this.style.boxShadow='0 0 15px rgba(0,255,255,0.2)';"
+             onmouseout="this.style.background=''; this.style.borderColor='rgba(0,255,255,0.3)'; this.style.boxShadow='';">
+            <div class="log-user">◢ 首席開發工程師、前端視覺設計、系統測試</div>
+            <div class="log-action">
+                <strong style="color: var(--primary-cyan);">陳右承</strong>
+                <span style="float: right; color: var(--accent-cyan); font-size: 0.9rem; opacity: 0.7;">◆ 點擊查看更多</span><br>
+                負責系統架構設計、核心功能開發、安全機制實作、介面設計布局、使用者體驗優化、使用測試
+            </div>
+        </div>
+    </a>
+    
+    <div class="log-entry">
+        <div class="log-user">◢ 組長、企劃發起人、基礎框架人員、資安顧問</div>
+        <div class="log-action">
+            <strong style="color: var(--primary-magenta);">李萌家</strong><br>
+            系統基礎框架設計、資料庫結構規劃、安全需求分析、威脅模型建立、最佳實作建議
+        </div>
+    </div>
+
+<!-- 致謝 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 特別致謝 ◆
+    </h2>
+    
+    <div class="log-entry">
+        <div class="log-action" style="text-align: center; font-size: 1.1rem; line-height: 1.8;">
+            感謝所有參與本專案開發的工程師、設計師、測試人員，<br>
+            以及提供寶貴意見和建議的使用者們。<br><br>
+            
+            <span style="color: var(--primary-cyan);">◢</span>
+            <strong style="color: var(--primary-magenta);"> 讓資安防護更加智慧化 </strong>
+            <span style="color: var(--primary-cyan);">◣</span><br><br>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ url_for('dashboard') }}" class="cyber-btn">◢ 返回儀表板 ◣</a>
+</div>
+
+<!-- 隱藏的彩蛋 -->
+<div style="opacity: 0.1; font-family: 'Source Code Pro', monospace; font-size: 0.6rem; text-align: center; margin-top: 50px; color: var(--primary-cyan);">
+    // 01001000 01100101 01101100 01101100 01101111 00100000 01000011 01111001 01100010 01100101 01110010 //
+</div>
+{% endblock %}

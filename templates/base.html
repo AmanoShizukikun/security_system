@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資安事件通報系統</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 背景效果 -->
+    <div class="cyber-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="particles">
+        <!-- 動態粒子效果 -->
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
+    </div>
+
+    <!-- 導航欄 -->
+    <nav class="security-nav">
+        <div class="nav-content">
+            <a href="{{ url_for('dashboard') if session.user_id else url_for('login') }}" class="logo">◆ 資安事件通報系統 ◆</a>
+            {% if session.user_id %}
+                <div class="nav-user">
+                    <span>已登入用戶：{{ session.username | upper }}</span>
+                    <a href="{{ url_for('logout') }}">◢ 登出系統 ◣</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <div class="security-container">
+        <!-- 警告訊息 -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert-{{ 'success' if category == 'success' else 'error' }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 頁尾開發人員資訊 -->
+    <footer style="text-align: center; padding: 20px; margin-top: 40px;">
+        <a href="{{ url_for('about') }}" class="footer-link">關於系統</a>
+    </footer>
+</body>
+</html>

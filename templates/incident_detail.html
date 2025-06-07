@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="security-title">◢ 事件詳細分析 ◣</h1>
+
+<!-- 事件詳情卡片 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 事件記錄詳情 ◆
+    </h2>
+    
+    <div class="log-entry">
+        <div class="log-time">事件編號：{{ incident.incident_id }}</div>
+        <div class="log-action" style="font-size: 1.2rem; margin: 10px 0;">{{ incident.title }}</div>
+        <div class="log-action">{{ incident.description }}</div>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+        <div>
+            <strong style="color: var(--primary-cyan);">嚴重程度：</strong>
+            <span class="severity-{{ incident.severity.value }}">
+                {% if incident.severity.value == 'low' %}低風險
+                {% elif incident.severity.value == 'medium' %}中風險
+                {% elif incident.severity.value == 'high' %}高風險
+                {% elif incident.severity.value == 'critical' %}緊急威脅
+                {% endif %}
+            </span>
+        </div>
+        <div>
+            <strong style="color: var(--primary-cyan);">處理狀態：</strong>
+            <span class="status-badge status-{{ incident.status.value.replace('_', '-') }}">
+                {% if incident.status.value == 'open' %}待處理
+                {% elif incident.status.value == 'in_progress' %}處理中
+                {% elif incident.status.value == 'resolved' %}已解決
+                {% elif incident.status.value == 'closed' %}已關閉
+                {% endif %}
+            </span>
+        </div>
+        <div>
+            <strong style="color: var(--primary-cyan);">通報人員：</strong>
+            <span class="log-user">{{ incident.reporter_id[:8] }}...</span>
+        </div>
+        <div>
+            <strong style="color: var(--primary-cyan);">指派人員：</strong>
+            <span style="color: var(--accent-cyan);">{{ incident.assigned_to or '尚未指派' }}</span>
+        </div>
+        <div>
+            <strong style="color: var(--primary-cyan);">建立時間：</strong>
+            <span class="log-time">{{ incident.created_at.strftime('%Y-%m-%d %H:%M:%S') if incident.created_at else 'N/A' }}</span>
+        </div>
+        <div>
+            <strong style="color: var(--primary-cyan);">解決時間：</strong>
+            <span class="log-time">{{ incident.resolved_at.strftime('%Y-%m-%d %H:%M:%S') if incident.resolved_at else '待解決' }}</span>
+        </div>
+    </div>
+    
+    {% if incident.tags %}
+    <div>
+        <strong style="color: var(--primary-cyan);">威脅標籤：</strong>
+        <div class="tag-list" style="margin-top: 10px;">
+            {% for tag in incident.tags %}
+                <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- 管理員指派功能 -->
+{% if user.role.value == 'admin' %}
+<div class="security-card">
+    <h2 style="color: var(--primary-magenta); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 事件指派系統 ◆
+    </h2>
+    
+    <form method="POST" action="{{ url_for('assign_incident', incident_id=incident.incident_id) }}" class="security-form">
+        <div>
+            <label for="staff_id" class="security-label">◆ 選擇資安人員</label>
+            <select name="staff_id" id="staff_id" class="security-select">
+                {% for staff in security_staff %}
+                    <option value="{{ staff.user_id }}">{{ staff.username | upper }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="cyber-btn">◢ 指派事件 ◣</button>
+    </form>
+</div>
+{% endif %}
+
+<!-- 狀態更新功能 -->
+{% if user.role.value in ['security_staff', 'admin'] %}
+<div class="security-card">
+    <h2 style="color: var(--primary-magenta); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 狀態更新系統 ◆
+    </h2>
+    
+    <form method="POST" action="{{ url_for('update_status', incident_id=incident.incident_id) }}" class="security-form">
+        <div>
+            <label for="status" class="security-label">◆ 新狀態</label>
+            <select name="status" id="status" class="security-select">
+                {% for status in statuses %}
+                    <option value="{{ status.value }}" {{ 'selected' if status == incident.status else '' }}>
+                        {% if status.value == 'open' %}待處理
+                        {% elif status.value == 'in_progress' %}處理中
+                        {% elif status.value == 'resolved' %}已解決
+                        {% elif status.value == 'closed' %}已關閉
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="comment" class="security-label">◆ 狀態說明</label>
+            <textarea name="comment" id="comment" class="security-textarea" 
+                      placeholder="請說明狀態變更的原因或處理過程..."></textarea>
+        </div>
+        <button type="submit" class="cyber-btn">◢ 更新狀態 ◣</button>
+    </form>
+</div>
+{% endif %}
+
+<!-- 處理記錄 -->
+<div class="security-card">
+    <h2 style="color: var(--primary-cyan); font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        ◆ 處理活動記錄 ◆
+    </h2>
+    
+    {% if logs %}
+        {% for log in logs %}
+            <div class="log-entry">
+                <div class="log-time">{{ log.created_at }}</div>
+                <div class="log-user">操作人員：{{ log.username | upper }}</div>
+                <div class="log-action">
+                    <strong style="color: var(--primary-magenta);">[{{ log.log_type }}]</strong> 
+                    {{ log.action }}
+                    {% if log.comment %}
+                        <div style="margin-top: 8px; color: var(--accent-cyan);">{{ log.comment }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert-error">
+            <span style="margin-left: 25px;">◆ 尚無處理記錄 ◆</span>
+        </div>
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="{{ url_for('dashboard') }}" class="cyber-btn">◢ 返回儀表板 ◣</a>
+</div>
+{% endblock %}

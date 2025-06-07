@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="security-title">◢ 帳號註冊系統 ◣</h1>
+
+<div class="security-form">
+    <form method="POST">
+        <div>
+            <label for="username" class="security-label">◆ 使用者名稱</label>
+            <input type="text" name="username" id="username" class="security-input" 
+                   placeholder="請選擇您的使用者名稱..." required>
+        </div>
+        <div>
+            <label for="email" class="security-label">◆ 電子郵件</label>
+            <input type="email" name="email" id="email" class="security-input" 
+                   placeholder="請輸入您的電子郵件..." required>
+        </div>
+        <div>
+            <label for="password" class="security-label">◆ 登入密碼</label>
+            <input type="password" name="password" id="password" class="security-input" 
+                   placeholder="請建立強密碼..." required>
+            <div style="color: var(--accent-cyan); font-size: 0.8rem; margin-top: 5px;">
+                ◢ 密碼須至少8個字符，包含大小寫字母、數字和特殊符號 ◣
+            </div>
+        </div>
+        <button type="submit" class="cyber-btn">◢ 建立帳號 ◣</button>
+    </form>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <span style="color: var(--accent-cyan);">已經有帳號了嗎？</span>
+        <a href="{{ url_for('login') }}" class="security-link">◆ 立即登入</a>
+    </div>
+</div>
+{% endblock %}
