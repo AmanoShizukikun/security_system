@@ -901,6 +901,3 @@ def update_status(incident_id):
 def about():
     """關於系統頁面 - 任何人都可以訪問"""
     return render_template('about.html')
-
-if __name__ == "__main__":
-    app.run(debug=True)

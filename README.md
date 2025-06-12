@@ -1,4 +1,4 @@
-# security_system
+![# security_system](assets/logo/logo.png)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/AmanoShizukikun/security_system?style=social)](https://github.com/AmanoShizukikun/security_system/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/AmanoShizukikun/security_system)](https://github.com/AmanoShizukikun/security_system/commits/main)
@@ -11,7 +11,7 @@
 
 ## 近期變動
 ###  1.0.0 (2025 年 6 月 8 日)
-![t2i](https://github.com/AmanoShizukikun/security_system/blob/main/assets/preview/1.0.0.jpg)
+![t2i](https://github.com/AmanoShizukikun/security_system/blob/main/assets/preview/preview.png)
 ### 重要變更
 - 【重大】首個發行版本。
 ### 新增功能
@@ -43,6 +43,20 @@ pip install -r requirements.txt
 ```shell
 flask --debug run
 ```
+
+## 系統演示
+<div align="center">
+<iframe 
+  width="1317" 
+  height="708" 
+  src="https://www.youtube.com/embed/FcvB6M-iEws?si=QUaJgNEo6I91XWcz" 
+  title="資安事件通報系統演示影片" 
+  frameborder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerpolicy="strict-origin-when-cross-origin" 
+  allowfullscreen>
+</iframe>
+</div>
 
 ## 待辦事項
 - **高優先度：**
