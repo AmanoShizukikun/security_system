@@ -1,4 +1,4 @@
-![# security_system](assets/logo/logo.png)
+# security_system
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/AmanoShizukikun/security_system?style=social)](https://github.com/AmanoShizukikun/security_system/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/AmanoShizukikun/security_system)](https://github.com/AmanoShizukikun/security_system/commits/main)
@@ -8,10 +8,10 @@
 
 ## 簡介
 勤益科技大學 Web 程式設計期末報告「資安事件通報系統」。
+![t2i](https://github.com/AmanoShizukikun/security_system/blob/main/assets/preview/preview.png)
 
 ## 近期變動
 ###  1.0.0 (2025 年 6 月 8 日)
-![t2i](https://github.com/AmanoShizukikun/security_system/blob/main/assets/preview/preview.png)
 ### 重要變更
 - 【重大】首個發行版本。
 ### 新增功能
@@ -46,16 +46,12 @@ flask --debug run
 
 ## 系統演示
 <div align="center">
-<iframe 
-  width="1317" 
-  height="708" 
-  src="https://www.youtube.com/embed/FcvB6M-iEws?si=QUaJgNEo6I91XWcz" 
-  title="資安事件通報系統演示影片" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-  referrerpolicy="strict-origin-when-cross-origin" 
-  allowfullscreen>
-</iframe>
+  <a href="https://youtu.be/FcvB6M-iEws?si=QUaJgNEo6I91XWcz" target="_blank">
+    <img src="https://img.youtube.com/vi/FcvB6M-iEws/maxresdefault.jpg" 
+         alt="資安事件通報系統演示影片" 
+         width="80%" 
+         style="border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+  </a>
 </div>
 
 ## 待辦事項
